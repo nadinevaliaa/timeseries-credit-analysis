@@ -14,10 +14,9 @@ Prosedur analisis yang diterapkan dalam proyek ini meliputi:
 Dataset yang digunakan dalam analisis ini memiliki struktur sebagai berikut:
 - **Tgl Realisasi:** Tanggal pelaksanaan pencairan kredit.
 - **Terima Bersih (RP):** Nominal bersih yang diterima dalam satuan Rupiah.
-Data ini memiliki karakteristik volatilitas yang tinggi, yang menjadi tantangan utama dalam proses peramalan.
 
 ## Hasil dan Evaluasi
-Berdasarkan pengujian, model **Prophet** menunjukkan kapabilitas terbaik dalam menangkap tren non-linear dan pola musiman tahunan dibandingkan model ARIMA dan ETS. Berikut adalah ringkasan metrik evaluasi model Prophet setelah tahap imputasi:
+Berdasarkan pengujian, model **Prophet** menghasilkan kapabilitas terbaik dalam menangkap tren non-linear dan pola musiman tahunan dibandingkan model ARIMA dan ETS. Berikut adalah ringkasan metrik evaluasi model Prophet setelah tahap imputasi:
 
 | Metrik Evaluasi | Nilai Akurasi |
 | :--- | :--- |
