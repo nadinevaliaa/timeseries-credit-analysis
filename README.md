@@ -34,6 +34,6 @@ Proyek ini dikembangkan menggunakan bahasa pemrograman **R** dengan dependensi p
 - `ggplot2`
 
 ## Struktur Repositori
-- `Notebook/`: Dokumentasi kode sumber analisis dalam format R (.R atau .Rmd).
-- `Data/`: Dataset realisasi kredit (`data-pencairan-kredit.csv`).
-- `Paper/`: Manuskrip penelitian lengkap dalam format PDF.
+- `Notebook`: Dokumentasi kode sumber analisis dalam format R (.R atau .Rmd).
+- `Data`: Dataset realisasi kredit (`data-pencairan-kredit.csv`).
+- `Paper`: Paper penelitian lengkap dalam format PDF.
