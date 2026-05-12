@@ -3,7 +3,7 @@
 ## Deskripsi Proyek
 Proyek ini membandingkan performa tiga model prediktif berbasis deret waktu, yaitu ARIMA, ETS, dan Prophet, dalam meramalkan pencairan kredit bulanan. Data yang digunakan mencakup periode Februari 2022 hingga 2031 yang mencakup informasi tanggal realisasi dan nominal terima bersih dan menunjukkan karakteristik volatil dengan adanya outlier yang signifikan.
 
-## Metodologi Penelitian
+## Pipeline Analisis
 Prosedur analisis yang diterapkan dalam proyek ini meliputi:
 1. **Analisis Eksploratif:** Identifikasi pola musiman dan tren pada data historis nominal pencairan.
 2. **Uji Stasioneritas:** Verifikasi data menggunakan Augmented Dickey-Fuller (ADF) Test serta observasi plot ACF dan PACF.
