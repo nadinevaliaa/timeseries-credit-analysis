@@ -1,4 +1,4 @@
-# **Analisis Komparatif Model Deret Waktu untuk Peramalan Pencairan Kredit**
+# **Evaluasi Model Prediktif untuk Peramalan Pencairan Kredit Menggunakan Time Series**
 
 Repositori ini menyajikan penelitian mengenai evaluasi performa model prediktif dalam meramalkan angka pencairan kredit bulanan. Studi ini membandingkan pendekatan statistik klasik dengan model berbasis struktur aditif untuk menangani data keuangan yang memiliki tingkat volatilitas tinggi.
 
@@ -15,10 +15,11 @@ Prosedur analisis yang diterapkan dalam proyek ini meliputi:
 ## Hasil dan Evaluasi
 Berdasarkan pengujian, model **Prophet** menghasilkan kapabilitas terbaik dalam menangkap tren non-linear dan pola musiman tahunan dibandingkan model ARIMA dan ETS. Berikut adalah ringkasan metrik evaluasi model Prophet setelah tahap imputasi:
 
-| Metrik Evaluasi                       | Nilai Akurasi |
-| Root Mean Square Error (RMSE)         | 4.483.520     |
-| Mean Absolute Error (MAE)             | 3.274.253     |
-| Mean Absolute Percentage Error (MAPE) | 85,11%        |
+| Metrik Evaluasi | Nilai Akurasi |
+| :--- | :--- |
+| Root Mean Square Error (RMSE) | 4.483.520 |
+| Mean Absolute Error (MAE) | 3.274.253 |
+| Mean Absolute Percentage Error (MAPE) | 85,11% |
 
 ## Persyaratan Sistem
 Proyek ini dikembangkan menggunakan bahasa pemrograman **R** dengan dependensi pustaka sebagai berikut:
