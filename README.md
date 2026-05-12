@@ -1,19 +1,23 @@
 # **Evaluasi Model Prediktif untuk Peramalan Pencairan Kredit Menggunakan Time Series**
 
-Repositori ini menyajikan penelitian mengenai evaluasi performa model prediktif dalam meramalkan angka pencairan kredit bulanan. Studi ini membandingkan pendekatan statistik klasik dengan model berbasis struktur aditif untuk menangani data keuangan yang memiliki tingkat volatilitas tinggi.
-
 ## Deskripsi Proyek
-Tujuan utama dari proyek ini adalah menentukan model terbaik dalam memprediksi pencairan kredit dengan mempertimbangkan gangguan data berupa *outlier* yang signifikan. Penelitian ini mencakup seluruh siklus pemrosesan data, mulai dari pengujian statistik formal hingga evaluasi metrik akurasi pasca-pembersihan data.
+Proyek ini membandingkan performa tiga model prediktif berbasis deret waktu, yaitu ARIMA, ETS, dan Prophet, dalam meramalkan pencairan kredit bulanan. Data yang digunakan mencakup periode Februari 2022 hingga 2031 yang mencakup informasi tanggal realisasi dan nominal terima bersih dan menunjukkan karakteristik volatil dengan adanya outlier signifikan
 
 ## Metodologi Penelitian
 Prosedur analisis yang diterapkan dalam proyek ini meliputi:
-1. **Analisis Eksploratif:** Identifikasi pola musiman dan tren pada data historis.
+1. **Analisis Eksploratif:** Identifikasi pola musiman dan tren pada data historis nominal pencairan.
 2. **Uji Stasioneritas:** Verifikasi data menggunakan Augmented Dickey-Fuller (ADF) Test serta observasi plot ACF dan PACF.
-3. **Pra-pemrosesan Data:** Penanganan *outlier* melalui teknik *Moving Average Imputation* untuk menstabilkan varians.
+3. **Pra-pemrosesan Data:** Penanganan *outlier* melalui teknik *Moving Average Imputation* untuk menstabilkan varians data nominal.
 4. **Pemodelan:** Implementasi dan komparasi model ARIMA, ETS (Error, Trend, Seasonal), dan Prophet.
 
+## Keterangan Dataset
+Dataset yang digunakan dalam analisis ini memiliki struktur sebagai berikut:
+- **Tgl Realisasi:** Tanggal pelaksanaan pencairan kredit.
+- **Terima Bersih (RP):** Nominal bersih yang diterima dalam satuan Rupiah.
+Data ini memiliki karakteristik volatilitas yang tinggi, yang menjadi tantangan utama dalam proses peramalan.
+
 ## Hasil dan Evaluasi
-Berdasarkan pengujian, model **Prophet** menghasilkan kapabilitas terbaik dalam menangkap tren non-linear dan pola musiman tahunan dibandingkan model ARIMA dan ETS. Berikut adalah ringkasan metrik evaluasi model Prophet setelah tahap imputasi:
+Berdasarkan pengujian, model **Prophet** menunjukkan kapabilitas terbaik dalam menangkap tren non-linear dan pola musiman tahunan dibandingkan model ARIMA dan ETS. Berikut adalah ringkasan metrik evaluasi model Prophet setelah tahap imputasi:
 
 | Metrik Evaluasi | Nilai Akurasi |
 | :--- | :--- |
@@ -30,6 +34,6 @@ Proyek ini dikembangkan menggunakan bahasa pemrograman **R** dengan dependensi p
 - `ggplot2`
 
 ## Struktur Repositori
-- `Kode/`: Dokumentasi kode sumber analisis dalam format R (.R atau .Rmd).
-- `Data/`: Dataset yang digunakan dalam penelitian.
-- `Paper/`: Paper penelitian lengkap dalam format PDF.
+- `Notebook/`: Dokumentasi kode sumber analisis dalam format R (.R atau .Rmd).
+- `Data/`: Dataset realisasi kredit (`data-pencairan-kredit.csv`).
+- `Paper/`: Manuskrip penelitian lengkap dalam format PDF.
