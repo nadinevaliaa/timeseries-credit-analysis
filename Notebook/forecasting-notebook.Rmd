@@ -1,0 +1,190 @@
+---
+title: "pencairan kredit"
+output: pdf_document
+---
+
+```{r}
+# 1. import library
+library(tidyverse) 
+library(tsibble) 
+library(timetk) 
+library(imputeTS) 
+library(lubridate) 
+library(forecast) 
+library(tseries) 
+library(scales) 
+library(prophet) 
+library(rstan) 
+library(readxl) 
+library(aTSA) 
+```
+
+```{r}
+# 2. import data
+data_pencairan_kredit <- read_excel("C:\\PROJECT SENDIRI\\Dataset\\Data_Pencairan_kredit.xlsx") 
+data_pencairan_kredit <- data_pencairan_kredit[, -1] 
+```
+
+```{r}
+# 3. Ubah Menjadi Objek Time Series 
+ts_data_kredit <- ts(data_pencairan_kredit, start = c(2022, 2), frequency = 12)
+```
+
+```{r}
+# 4. Plot Data Awal 
+autoplot(ts_data_kredit, main = "Data Pencairan Kredit (2022 - 
+2031)", ylab = "Dana Pencairan", xlab = "Tahun")
+```
+
+```{r}
+# 5. Uji Stasioneritas 
+# ADF Test 
+adf.test(ts_data_kredit) 
+ 
+# ACF dan PACF 
+acf(ts_data_kredit, main = "ACF Test Data Time Series") 
+pacf(ts_data_kredit, main = "PACF Test Data Time Series")
+```
+
+```{r}
+# 6. Model ARIMA 
+auto_ar <- auto.arima(ts_data_kredit, seasonal = FALSE) 
+
+# Forecast
+forecast_usage <- forecast::forecast(auto_ar, h = 12)
+
+# Plotting
+autoplot(forecast_usage, main = "Hasil Prediksi ARIMA 12 Bulan ke Depan")
+```
+
+
+```{r}
+# 7. Model ETS 
+ets_model <- ets(ts_data_kredit) 
+summary(ets_model) 
+checkresiduals(ets_model) 
+```
+
+```{r}
+# Forecast ETS 
+forecast_ets <- forecast::forecast(ets_model, h = 12) 
+autoplot(forecast_ets, main = "Hasil Prediksi ETS") 
+print(forecast_ets)
+```
+
+```{r}
+# 8. Identifikasi dan Imputasi Outlier 
+nilai_kredit_asli <- as.numeric(ts_data_kredit) 
+ambang_batas <- 2.5e+07 
+ 
+nilai_kredit_na <- ifelse( 
+  nilai_kredit_asli > ambang_batas, 
+  NA, 
+  nilai_kredit_asli 
+) 
+ 
+cat("Jumlah Outlier yang diubah menjadi NA:", 
+sum(is.na(nilai_kredit_na)), "\n") 
+ 
+# Imputasi Moving Average (k = 5) 
+ts_imputasi <- ts(nilai_kredit_na, start = start(ts_data_kredit), 
+frequency = frequency(ts_data_kredit)) 
+ts_nilai_kredit_imputasi <- na_ma(ts_imputasi, k = 5, weighting = 
+"simple") 
+```
+
+
+```{r}
+# 9. Visualisasi Hasil Imputasi 
+plot_df <- data.frame( 
+  Tanggal = time(ts_data_kredit), 
+  Original = as.numeric(ts_data_kredit), 
+  Imputed = as.numeric(ts_nilai_kredit_imputasi) 
+) 
+ 
+plot_df %>% 
+  pivot_longer(cols = c(Original, Imputed), names_to = "JenisData", 
+values_to = "Nilai") %>% 
+  ggplot(aes(x = Tanggal, y = Nilai, color = JenisData)) + 
+  geom_line(alpha = 0.8) + 
+  labs(title = "Perbandingan Data Asli vs Setelah Diimputasi", 
+       y = "Jumlah Kredit (Rp)", x = "Waktu") + 
+  scale_y_continuous(labels = scales::label_dollar(prefix = "Rp ")) + theme_minimal() + scale_color_manual(values = c("Original" = "red", "Imputed" = "blue"))
+```
+
+```{r}
+# 10. Uji dan Model Setelah Imputasi 
+# ADF Test 
+adf.test(ts_nilai_kredit_imputasi) 
+ 
+# ARIMA Baru 
+auto_ar_imputed <- auto.arima(ts_nilai_kredit_imputasi,seasonal = FALSE) 
+summary(auto_ar_imputed) 
+ 
+forecast_arima_baru <- forecast::forecast(auto_ar_imputed, h = 12) 
+plot(forecast_arima_baru, main = "Forecast ARIMA Data Bersih") 
+print(forecast_arima_baru) 
+ 
+# ETS Baru 
+ets_model_baru <- ets(ts_nilai_kredit_imputasi) 
+summary(ets_model_baru) 
+ 
+forecast_ets_baru <- forecast::forecast(ets_model_baru, h = 12)
+plot(forecast_ets_baru, main = "Forecast ETS dari Data Bersih")
+print(forecast_ets_baru) 
+```
+
+```{r}
+# 11. Siapkan Data untuk Prophet 
+df_prophet <- data.frame( 
+  Tanggal = time(ts_nilai_kredit_imputasi), 
+  Nilai = as.numeric(ts_nilai_kredit_imputasi) 
+) 
+ 
+# Ubah Tanggal ke Format Date 
+df_prophet$Tanggal <- as.Date(paste(floor(df_prophet$Tanggal),
+                                    round((df_prophet$Tanggal - floor(df_prophet$Tanggal)) * 12 + 1), 
+                                    "01", sep = "-"), format = "%Y-%m-%d") 
+ 
+# Ubah Nama Kolom 
+df_prophet_akhir <- df_prophet %>% rename(ds = Tanggal, y = Nilai)
+```
+
+```{r}
+# 12. Model dan Forecast Prophet 
+m <- prophet() 
+m <- fit.prophet(m, df_prophet_akhir) 
+ 
+# Forecast 
+forecast_prophet <- make_future_dataframe(m, periods = 12, freq = 
+"month") 
+prophet_fore <- predict(m, forecast_prophet) 
+ 
+# Plot Hasil Forecast 
+plot(m, prophet_fore) 
+prophet_plot_components(m, prophet_fore)
+```
+
+```{r}
+# 13. Evaluasi Model Prophet 
+# Prediksi pada data training 
+df_prophet_train_pred <- predict(m, df_prophet_akhir) 
+ 
+# Gabungkan hasil 
+df_prophet_metrics <- df_prophet_akhir %>% 
+  left_join(df_prophet_train_pred %>% select(ds, yhat), by = "ds") %>% filter(!is.na(yhat)) 
+ 
+# Hitung metrik error 
+rmse_prophet <- sqrt(mean((df_prophet_metrics$y - 
+df_prophet_metrics$yhat)^2)) 
+mae_prophet <- mean(abs(df_prophet_metrics$y - 
+df_prophet_metrics$yhat)) 
+mape_prophet <- mean(abs((df_prophet_metrics$y - 
+df_prophet_metrics$yhat) / 
+df_prophet_metrics$y[df_prophet_metrics$y 
+!= 0])) * 100 
+cat("RMSE Prophet:", rmse_prophet, "\n") 
+cat("MAE Prophet:", mae_prophet, "\n") 
+cat("MAPE Prophet:", mape_prophet, "%\n") 
+```
+
