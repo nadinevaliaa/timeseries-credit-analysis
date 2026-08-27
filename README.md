@@ -1,4 +1,4 @@
-# **Evaluasi Model Prediktif untuk Peramalan Pencairan Kredit Menggunakan Time Series**
+# **Evaluasi Model Prediktif untuk Peramalan Data Pencairan Kredit Menggunakan Time Series**
 
 ## Deskripsi Project
 Project ini membandingkan performa tiga model prediktif berbasis deret waktu, yaitu ARIMA, ETS, dan Prophet, dalam meramalkan pencairan kredit bulanan. Data yang digunakan mencakup periode Februari 2022 hingga 2031 yang mencakup informasi tanggal realisasi dan nominal terima bersih dan menunjukkan karakteristik volatil dengan adanya outlier yang signifikan.
