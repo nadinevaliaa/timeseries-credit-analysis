@@ -12,7 +12,7 @@ Prosedur analisis yang diterapkan dalam proyek ini meliputi:
 
 ## Keterangan Dataset
 Dataset yang digunakan dalam analisis ini memiliki struktur sebagai berikut:
-- **Tgl Realisasi:** Tanggal pelaksanaan pencairan kredit.
+- **Tanggal Realisasi:** Tanggal pelaksanaan pencairan kredit.
 - **Terima Bersih (RP):** Nominal bersih yang diterima dalam satuan Rupiah.
 
 ## Hasil dan Evaluasi
