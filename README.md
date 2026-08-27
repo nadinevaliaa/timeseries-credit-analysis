@@ -5,10 +5,10 @@ Proyek ini membandingkan performa tiga model prediktif berbasis deret waktu, yai
 
 ## Pipeline Analisis
 Prosedur analisis yang diterapkan dalam proyek ini meliputi:
-1. **Analisis Eksploratif:** Identifikasi pola musiman dan tren pada data historis nominal pencairan.
-2. **Uji Stasioneritas:** Verifikasi data menggunakan Augmented Dickey-Fuller (ADF) Test serta observasi plot ACF dan PACF.
-3. **Pra-pemrosesan Data:** Penanganan *outlier* melalui teknik *Moving Average Imputation* untuk menstabilkan varians data nominal.
-4. **Pemodelan:** Implementasi dan komparasi model ARIMA, ETS (Error, Trend, Seasonal), dan Prophet.
+1. Identifikasi pola musiman dan tren pada data historis nominal pencairan.
+2. Verifikasi data menggunakan Augmented Dickey-Fuller (ADF) Test serta observasi plot ACF dan PACF.
+3. Penanganan *outlier* melalui teknik *Moving Average Imputation* untuk menstabilkan varians data nominal.
+4. Implementasi dan komparasi model ARIMA, ETS (Error, Trend, Seasonal), dan Prophet.
 
 ## Keterangan Dataset
 Dataset yang digunakan dalam analisis ini memiliki struktur sebagai berikut:
@@ -24,15 +24,10 @@ Berdasarkan pengujian, model **Prophet** menghasilkan kapabilitas terbaik dalam 
 | Mean Absolute Error (MAE) | 3.274.253 |
 | Mean Absolute Percentage Error (MAPE) | 85,11% |
 
-## Persyaratan Sistem
+## Dependensi & Pustaka
 Proyek ini dikembangkan menggunakan bahasa pemrograman **R** dengan dependensi pustaka sebagai berikut:
 - `forecast`
 - `prophet`
 - `tseries`
 - `tidyverse`
 - `ggplot2`
-
-## Struktur Repositori
-- `Notebook`: Dokumentasi kode sumber analisis dalam format Rmd.
-- `Data`: Dataset realisasi kredit (`data-pencairan-kredit.csv`).
-- `Paper`: Paper penelitian lengkap dalam format PDF.
